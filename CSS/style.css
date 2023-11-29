@@ -24,7 +24,7 @@ body {
 
 .contenedor {
     width: 100%;
-    height: calc(100vh - 100px);
+    min-height: calc(100vh - 100px);
     display: flex;
     justify-content: center;
 }
@@ -32,7 +32,7 @@ body {
 /* ESTILOS FORMULARIO */
 .contenedor .div-formulario {
     width: 30%;
-    height: 250px;
+    height: calc(100% - 50px);
     margin: 15px 15px;
     background-color: rgb(110, 81, 81);
     display: flex;
@@ -40,7 +40,8 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    box-shadow: 10px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgb(66, 54, 54);
 }
 
 .contenedor .div-formulario h2 {
@@ -68,15 +69,16 @@ body {
 
 /* ESTILOS LISTADO */
 .contenedor .div-listado {
-    width: 55%;
-    height: calc(100% - 50px);
+    width: 40%;
+    height: 40vw;
     margin: 15px 15px;
     background-color: rgb(110, 81, 81);
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 10px;
-    box-shadow: 10px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgb(66, 54, 54);
 }
 
 .contenedor .div-listado h2 {
@@ -94,6 +96,7 @@ body {
     align-items: center;
     margin: 15px;
     padding: 0 30px;
+    overflow-y: auto;
 }
 
 .contenedor .div-listado .div-empleados p {
@@ -122,3 +125,12 @@ hr {
 .btn-eliminar {
     background-color: red;
 }
+footer,
+.pie {
+  color: white;
+  background-color: black;
+  display: flex;
+  padding: 10px; }
+
+.pie {
+  text-align: center; }
