@@ -4,7 +4,7 @@ const objEmpleado = {
     id: '',
     nombre: '',
     puesto: ''
-}
+};
 
 let editando = false;
 
@@ -13,17 +13,22 @@ const nombreInput = document.querySelector('#nombre');
 const puestoInput = document.querySelector('#puesto');
 const btnAgregarInput = document.querySelector('#btnAgregar');
 
+document.addEventListener('DOMContentLoaded', () => {
+    cargarEmpleadosDesdeStorage();
+    mostrarEmpleados();
+});
+
 formulario.addEventListener('submit', validarFormulario);
 
 function validarFormulario(e) {
     e.preventDefault();
 
-    if(nombreInput.value === '' || puestoInput.value === '') {
+    if (nombreInput.value === '' || puestoInput.value === '') {
         alert('Todos los campos se deben llenar');
         return;
     }
 
-    if(editando) {
+    if (editando) {
         editarEmpleado();
         editando = false;
     } else {
@@ -42,7 +47,9 @@ function obtenerFechaFormateada() {
 }
 
 function agregarEmpleado() {
-    listaEmpleados.push({...objEmpleado});
+    listaEmpleados.push({ ...objEmpleado });
+
+    guardarEmpleadosEnStorage();
 
     mostrarEmpleados();
 
@@ -60,9 +67,9 @@ function mostrarEmpleados() {
     limpiarHTML();
 
     const divEmpleados = document.querySelector('.div-empleados');
-    
+
     listaEmpleados.forEach(empleado => {
-        const {id, nombre, puesto} = empleado;
+        const { id, nombre, puesto } = empleado;
 
         const parrafo = document.createElement('p');
         parrafo.textContent = `${id} - ${nombre} - ${puesto} - `;
@@ -88,7 +95,7 @@ function mostrarEmpleados() {
 }
 
 function cargarEmpleado(empleado) {
-    const {id, nombre, puesto} = empleado;
+    const { id, nombre, puesto } = empleado;
 
     nombreInput.value = nombre;
     puestoInput.value = puesto;
@@ -96,38 +103,37 @@ function cargarEmpleado(empleado) {
     objEmpleado.id = id;
 
     formulario.querySelector('button[type="submit"]').textContent = 'Actualizar';
-    
+
     editando = true;
 }
 
 function editarEmpleado() {
-
     objEmpleado.nombre = nombreInput.value;
     objEmpleado.puesto = puestoInput.value;
 
     listaEmpleados.map(empleado => {
-
-        if(empleado.id === objEmpleado.id) {
+        if (empleado.id === objEmpleado.id) {
             empleado.id = objEmpleado.id;
             empleado.nombre = objEmpleado.nombre;
             empleado.puesto = objEmpleado.puesto;
-
         }
-
     });
+
+    guardarEmpleadosEnStorage();
 
     limpiarHTML();
     mostrarEmpleados();
     formulario.reset();
 
     formulario.querySelector('button[type="submit"]').textContent = 'Agregar';
-    
+
     editando = false;
 }
 
 function eliminarEmpleado(id) {
-
     listaEmpleados = listaEmpleados.filter(empleado => empleado.id !== id);
+
+    guardarEmpleadosEnStorage();
 
     limpiarHTML();
     mostrarEmpleados();
@@ -135,7 +141,18 @@ function eliminarEmpleado(id) {
 
 function limpiarHTML() {
     const divEmpleados = document.querySelector('.div-empleados');
-    while(divEmpleados.firstChild) {
+    while (divEmpleados.firstChild) {
         divEmpleados.removeChild(divEmpleados.firstChild);
+    }
+}
+
+function guardarEmpleadosEnStorage() {
+    localStorage.setItem('empleados', JSON.stringify(listaEmpleados));
+}
+
+function cargarEmpleadosDesdeStorage() {
+    const empleadosEnStorage = localStorage.getItem('empleados');
+    if (empleadosEnStorage) {
+        listaEmpleados = JSON.parse(empleadosEnStorage);
     }
 }

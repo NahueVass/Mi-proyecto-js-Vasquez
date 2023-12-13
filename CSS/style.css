@@ -5,21 +5,50 @@
 }
 
 
-body {
-    background-color: rgb(99, 99, 99);
-}
+
+
+
 
 .div-titulo {
     width: 100%;
     height: 100px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column; 
+    align-items: center; 
+    background: linear-gradient(to bottom, rgb(58, 54, 66) 0%, rgb(255, 255, 255) 100%);
 }
 
 .div-titulo h1 {
-    font-weight: 300;
+    font-weight: 500;
     color: #ddd;
+    font-size: 2em; 
+    text-align: center;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(to bottom, rgb(0, 0, 0), rgb(58, 54, 66) 0%);
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-top: 10px; 
+}
+
+.div-titulo .nav-enlaces {
+    display: flex;
+    gap: 20px;
+    margin-top: auto; 
+}
+
+.div-titulo .nav-enlaces a {
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #ddd;
+    text-decoration: none;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(to bottom, rgb(0, 0, 0), rgb(58, 54, 66) 0%);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+main {
+    width: 100%;
+    background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(58, 54, 66)); 
 }
 
 .contenedor {
@@ -29,12 +58,12 @@ body {
     justify-content: center;
 }
 
-/* ESTILOS FORMULARIO */
+
 .contenedor .div-formulario {
     width: 30%;
     height: calc(100% - 50px);
     margin: 15px 15px;
-    background-color: rgb(110, 81, 81);
+    background-color: rgb(143, 141, 141);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -67,12 +96,12 @@ body {
     margin: 10px 10px;
 }
 
-/* ESTILOS LISTADO */
+
 .contenedor .div-listado {
     width: 40%;
     height: 40vw;
     margin: 15px 15px;
-    background-color: rgb(110, 81, 81);
+    background-color: rgb(143, 141, 141);
     display: flex;
     flex-direction: column;
     align-items: center;
