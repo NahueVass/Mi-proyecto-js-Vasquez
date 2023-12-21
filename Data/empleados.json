@@ -1,0 +1,5 @@
+[
+    { "id": "1", "nombre": "Juan Pérez", "puesto": "Desarrollador" },
+    { "id": "2", "nombre": "Ana Gómez", "puesto": "Diseñador" },
+    { "id": "3", "nombre": "Carlos Rodríguez", "puesto": "Gerente" }
+]

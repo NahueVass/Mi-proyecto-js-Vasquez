@@ -1,27 +1,48 @@
 let listaEmpleados = [];
-
-const objEmpleado = {
-    id: '',
-    nombre: '',
-    puesto: ''
-};
-
 let editando = false;
 
-const formulario = document.querySelector('#formulario');
-const nombreInput = document.querySelector('#nombre');
-const puestoInput = document.querySelector('#puesto');
-const btnAgregarInput = document.querySelector('#btnAgregar');
-
-document.addEventListener('DOMContentLoaded', () => {
-    cargarEmpleadosDesdeStorage();
-    mostrarEmpleados();
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        await cargarEmpleadosDesdeApi();
+        mostrarEmpleados();
+    } catch (error) {
+        console.error('Error al cargar empleados:', error);
+        document.getElementById('mensaje-error').textContent = 'Error al cargar datos. Por favor, intenta nuevamente.';
+    }
 });
 
-formulario.addEventListener('submit', validarFormulario);
+async function cargarEmpleadosDesdeApi() {
+    const response = await fetch('https://api.example.com/empleados'); // Reemplaza con la URL de tu API
+    if (!response.ok) {
+        throw new Error(`Error en la solicitud: ${response.statusText}`);
+    }
+    listaEmpleados = await response.json();
+}
+function cargarEmpleadosDesdeStorage() {
+    fetch('./data/empleados.json') // Ajusta la ruta según la estructura de tu proyecto
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && Array.isArray(data)) {
+                listaEmpleados = data;
+                mostrarEmpleados();
+            }
+        })
+        .catch(error => {
+            console.error('Error al cargar empleados:', error);
+            document.getElementById('mensaje-error').textContent = 'Error al cargar datos. Por favor, intenta nuevamente.';
+        });
+}
 
 function validarFormulario(e) {
     e.preventDefault();
+
+    const nombreInput = document.getElementById('nombre');
+    const puestoInput = document.getElementById('puesto');
 
     if (nombreInput.value === '' || puestoInput.value === '') {
         alert('Todos los campos se deben llenar');
@@ -32,11 +53,13 @@ function validarFormulario(e) {
         editarEmpleado();
         editando = false;
     } else {
-        objEmpleado.id = obtenerFechaFormateada();
-        objEmpleado.nombre = nombreInput.value;
-        objEmpleado.puesto = puestoInput.value;
+        const objEmpleado = {
+            id: obtenerFechaFormateada(),
+            nombre: nombreInput.value,
+            puesto: puestoInput.value
+        };
 
-        agregarEmpleado();
+        agregarEmpleado(objEmpleado);
     }
 }
 
