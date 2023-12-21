@@ -1,9 +1,10 @@
 let listaEmpleados = [];
 let editando = false;
+let objEmpleado = {};
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        await cargarEmpleadosDesdeApi();
+        await cargarEmpleadosDesdeStorage();
         mostrarEmpleados();
     } catch (error) {
         console.error('Error al cargar empleados:', error);
@@ -11,15 +12,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-async function cargarEmpleadosDesdeApi() {
-    const response = await fetch('https://api.example.com/empleados'); // Reemplaza con la URL de tu API
-    if (!response.ok) {
-        throw new Error(`Error en la solicitud: ${response.statusText}`);
-    }
-    listaEmpleados = await response.json();
-}
 function cargarEmpleadosDesdeStorage() {
-    fetch('./data/empleados.json') // Ajusta la ruta según la estructura de tu proyecto
+    fetch('./data/empleados.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Error en la solicitud: ${response.statusText}`);
@@ -69,7 +63,7 @@ function obtenerFechaFormateada() {
     return fechaActual.toLocaleDateString('es-ES', formatoFecha);
 }
 
-function agregarEmpleado() {
+function agregarEmpleado(objEmpleado) {
     listaEmpleados.push({ ...objEmpleado });
 
     guardarEmpleadosEnStorage();
@@ -134,12 +128,11 @@ function editarEmpleado() {
     objEmpleado.nombre = nombreInput.value;
     objEmpleado.puesto = puestoInput.value;
 
-    listaEmpleados.map(empleado => {
+    listaEmpleados = listaEmpleados.map(empleado => {
         if (empleado.id === objEmpleado.id) {
-            empleado.id = objEmpleado.id;
-            empleado.nombre = objEmpleado.nombre;
-            empleado.puesto = objEmpleado.puesto;
+            return { ...empleado, ...objEmpleado };
         }
+        return empleado;
     });
 
     guardarEmpleadosEnStorage();
@@ -172,6 +165,7 @@ function limpiarHTML() {
 function guardarEmpleadosEnStorage() {
     localStorage.setItem('empleados', JSON.stringify(listaEmpleados));
 }
+
 
 function cargarEmpleadosDesdeStorage() {
     const empleadosEnStorage = localStorage.getItem('empleados');
